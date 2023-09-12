@@ -18,7 +18,7 @@ public class RegistrationController implements WebMvcConfigurer {
   }
 
   @PostMapping("/registration")
-  public String handleSubmitButtonClick(@Valid @ModelAttribute User user, BindingResult bindingResult) {
+  public String processFormSubmission(@Valid @ModelAttribute User user, BindingResult bindingResult) {
 	  String templateNameToRedirect = bindingResult.hasErrors()? "registrationForm" : "registrationCompleted";
 	  return templateNameToRedirect;
   }
