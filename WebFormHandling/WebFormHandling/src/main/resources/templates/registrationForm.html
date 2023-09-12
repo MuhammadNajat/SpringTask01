@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Please Register Yourself...</h1>
+    <form action="#" th:action="@{/registration}" th:object="${user}" method="post">
+		<table>
+			<tr>
+        		<td>Name:</td>
+				<td><input type="text" th:field="*{name}" /></td>
+				<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Name Length should be grater than 2 and smaller than 30</td>
+        	</tr>
+        	
+        	<tr>
+        		<td>Age:</td>
+				<td><input type="number" min="0" th:field="*{age}" /></td>
+				<td th:if="${#fields.hasErrors('age')}" th:errors="*{age}" style="color:red">Minimum age is 15</td>
+        	</tr>
+        	
+        	<tr>
+        		<td>Email:</td>
+				<td><input type="text" th:field="*{emailAddress}" /></td>
+				<td th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}" style="color:red">Correct Email Format is firstpart@domain.com</td>
+        	</tr>
+			<tr>
+				<td><input type="submit" value="Register" /></td>
+				<td><input type="reset" value="Reset" /></td>
+			</tr>
+    	</table>
+    </form>
+</body>
+</html>
