@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import jakarta.validation.Valid;
 
 @Controller
-public class RegistrationController  implements WebMvcConfigurer {
+public class RegistrationController implements WebMvcConfigurer {
 
   @GetMapping("/registration")
   public String redirectToRegistrationForm(@ModelAttribute User user) {
