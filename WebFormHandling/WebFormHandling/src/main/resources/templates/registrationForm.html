@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h1>Please Register Yourself...</h1>
-    <form action="#" th:action="@{/registration}" th:object="${user}" method="post">
+    <form action="#" th:action="@{/registration}" th:object="${userInput}" method="post">
 		<table>
 			<tr>
         		<td>Name:</td>
@@ -16,7 +16,7 @@
         	
         	<tr>
         		<td>Age:</td>
-				<td><input type="number" min="0" th:field="*{age}" /></td>
+				<td><input type="number" th:field="*{age}" /></td>
 				<td th:if="${#fields.hasErrors('age')}" th:errors="*{age}" style="color:red">Minimum age is 15</td>
         	</tr>
         	
@@ -25,6 +25,14 @@
 				<td><input type="text" th:field="*{emailAddress}" /></td>
 				<td th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}" style="color:red">Correct Email Format is firstpart@domain.com</td>
         	</tr>
+        	
+        	<tr>
+				<td><p th:text="'Make a mathemetical expression which evaluates to ' + ${customCaptchaData.numberToMake}" /></td>
+				<td><input type="text" th:field="*{expression}" placeholder="Put the expression here..."/></td>
+				<td th:if="${#fields.hasErrors('expression')}" th:errors="*{expression}" style="color:red">Please input valid expression</td>
+
+        	</tr>
+        	
 			<tr>
 				<td><input type="submit" value="Register" /></td>
 				<td><input type="reset" value="Reset" /></td>
