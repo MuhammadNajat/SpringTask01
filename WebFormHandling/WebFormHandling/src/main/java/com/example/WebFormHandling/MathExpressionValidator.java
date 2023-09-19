@@ -32,13 +32,15 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 		boolean existEasyExpressions = checkIfEasyExpressionsExist(tokens);
 		boolean startsAndEndsWithDigits = Character.isDigit(value.charAt(0)) && Character.isDigit(value.charAt(value.length()-1));
 		boolean existsDivisionByZero = checkIfDivisionByZeroExists(tokens);
-		boolean valid = containsOnlyDigitsAndOperators && !existRepeatedOperators && !existEasyExpressions && startsAndEndsWithDigits && !existsDivisionByZero;
+		boolean numberToMakeExistsInTokens = checkIfReferenceExistsInTokens(tokens, String.valueOf(customCaptchaData.getNumberToMake()));
+		boolean valid = containsOnlyDigitsAndOperators && !existRepeatedOperators && !existEasyExpressions && startsAndEndsWithDigits && !existsDivisionByZero && !numberToMakeExistsInTokens;
 		
 		System.out.println("containsOnlyDigitsAndOperators:" + containsOnlyDigitsAndOperators);
 		System.out.println("existRepeatedOperators:" + existRepeatedOperators);
 		System.out.println("existEasyExpressions:" + existEasyExpressions);
 		System.out.println("startsAndEndsWithDigits:" + startsAndEndsWithDigits);
 		System.out.println("existsDivisionByZero:" + existsDivisionByZero);
+		System.out.println("numberToMakeExistsInTokens:" + numberToMakeExistsInTokens);
 		System.out.println("valid:" + valid);
 		
 		if(valid) {
@@ -61,15 +63,24 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 		for(int i=0; i<textLength; i++) {
 			if(Character.isDigit(text.charAt(i))) {
 				String digits = "";
-				boolean nonZeroDigitExists = false;
+				
+				//Ignore leading zeros
+				while(i < textLength && Character.isDigit(text.charAt(i))) {
+					if(text.charAt(i) != '0') {
+						break;
+					}
+					i++;
+				}
+				
+				//Consider non-zero digits
 				while(i < textLength && Character.isDigit(text.charAt(i))) {
 					digits = digits + text.charAt(i);
-					nonZeroDigitExists |= (text.charAt(i) != '0');
 					i++;
 				}
 				i--;
-				//If the string digit has multiple 0s and no other digits, than consider it as only a single 0
-				digits = nonZeroDigitExists? digits : "0";
+				
+				//If the string digit is empty after ignoring the 0s in the text, then string digit should have only one 0 instead of multiple 0s
+				digits = digits.equals("")? "0" : digits;
 				tokens.add(digits);
 			}
 			else if(operators.indexOf( text.charAt(i) ) != -1) {
@@ -129,6 +140,15 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 			System.out.println("token: " + token + ".");
 			System.out.println("nextToken: " + nextToken + ".");
 			exist |= (token.equals("/") && nextToken.equals("0"));
+		}
+		
+		return exist;
+	}
+	
+	private boolean checkIfReferenceExistsInTokens(List<String> tokens, String reference) {
+		boolean exist = false;
+		for(String token : tokens) {
+			exist |= token.equals(reference);
 		}
 		
 		return exist;
