@@ -1,5 +1,8 @@
 package com.example.WebFormHandling;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import jakarta.validation.ConstraintValidator;
@@ -14,13 +17,29 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 	
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-		System.out.println("\n\n\n#### Entered expre validation...\n\n\n");
+		System.out.println("\n\n\n#### Entered expression validation...\n\n\n");
 		value = value.replaceAll("\\s", "");
 		
-		boolean existsRepeatedOperators = checkIfRepeatedOperatorsExist(value);
+		if(value.length() == 0) {
+			return false;
+		}
+		
+		List<String> tokens = getTextTokenized(value);
+		System.out.println("Tokens:" + tokens);
+		
 		boolean containsOnlyDigitsAndOperators = checkIfContainsOnlyDigitsAndOperators(value);
+		boolean existRepeatedOperators = checkIfRepeatedOperatorsExist(value);
+		boolean existEasyExpressions = checkIfEasyExpressionsExist(tokens);
 		boolean startsAndEndsWithDigits = Character.isDigit(value.charAt(0)) && Character.isDigit(value.charAt(value.length()-1));
-		boolean valid = !existsRepeatedOperators && containsOnlyDigitsAndOperators && startsAndEndsWithDigits;
+		boolean existsDivisionByZero = checkIfDivisionByZeroExists(tokens);
+		boolean valid = containsOnlyDigitsAndOperators && !existRepeatedOperators && !existEasyExpressions && startsAndEndsWithDigits && !existsDivisionByZero;
+		
+		System.out.println("containsOnlyDigitsAndOperators:" + containsOnlyDigitsAndOperators);
+		System.out.println("existRepeatedOperators:" + existRepeatedOperators);
+		System.out.println("existEasyExpressions:" + existEasyExpressions);
+		System.out.println("startsAndEndsWithDigits:" + startsAndEndsWithDigits);
+		System.out.println("existsDivisionByZero:" + existsDivisionByZero);
+		System.out.println("valid:" + valid);
 		
 		if(valid) {
 			Expression expression = new ExpressionBuilder(value).build();
@@ -32,6 +51,31 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 		}
 		
 		return valid;
+	}
+
+	private List<String> getTextTokenized(String text) {
+		int textLength = text.length();
+		String operators = "+-*/";
+		List<String> tokens = new ArrayList<String>();
+		
+		for(int i=0; i<textLength; i++) {
+			if(Character.isDigit(text.charAt(i))) {
+				String digits = "";
+				boolean nonZeroDigitExists = false;
+				while(i < textLength && Character.isDigit(text.charAt(i))) {
+					digits = digits + text.charAt(i);
+					nonZeroDigitExists |= (text.charAt(i) != '0');
+					i++;
+				}
+				i--;
+				digits = nonZeroDigitExists? digits : "0";
+				tokens.add(digits);
+			}
+			else if(operators.indexOf( text.charAt(i) ) != -1) {
+				tokens.add("" + text.charAt(i));
+			}
+		}
+		return tokens;
 	}
 
 	private boolean checkIfRepeatedOperatorsExist(String text) {
@@ -57,5 +101,35 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 			response &= valid;
 		}
 		return response;
+	}
+	
+	//Easy expressions are assumed as follows: + 0, - 0 , * 1, and / 1
+	private boolean checkIfEasyExpressionsExist(List<String> tokens) {
+		int tokenCount = tokens.size();
+		boolean exist = false;
+		for(int i=0; i<tokenCount-1; i++) {
+			String token = tokens.get(i);
+			String nextToken = tokens.get(i+1);
+			exist |= (token.equals("+") && nextToken.equals("0"));
+			exist |= (token.equals("-") && nextToken.equals("0"));
+			exist |= (token.equals("*") && nextToken.equals("1"));
+			exist |= (token.equals("/") && nextToken.equals("1"));
+		}
+		
+		return exist;
+	}
+	
+	private boolean checkIfDivisionByZeroExists(List<String> tokens) {
+		int tokenCount = tokens.size();
+		boolean exist = false;
+		for(int i=0; i<tokenCount-1; i++) {
+			String token = tokens.get(i);
+			String nextToken = tokens.get(i+1);
+			System.out.println("token: " + token + ".");
+			System.out.println("nextToken: " + nextToken + ".");
+			exist |= (token.equals("/") && nextToken.equals("0"));
+		}
+		
+		return exist;
 	}
 }

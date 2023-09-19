@@ -11,7 +11,7 @@ import jakarta.validation.Payload;
 @Documented
 
 public @interface ValidMathExpression {
-	 String message() default "Invalid expression. Avoid invalid and easy expressions like 10+*7, 10+0, 10-0, 10/1, 10*1";
+	 String message() default "Invalid expression. Avoid invalid and easy expressions like 10+*7, 10/0, 10+0, 10-0, 10/1, 10*1. Avoid brackets";
 
 	 Class<?>[] groups() default {};
 
