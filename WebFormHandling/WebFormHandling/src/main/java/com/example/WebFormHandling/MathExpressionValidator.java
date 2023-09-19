@@ -68,6 +68,7 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 					i++;
 				}
 				i--;
+				//If the string digit has multiple 0s and no other digits, than consider it as only a single 0
 				digits = nonZeroDigitExists? digits : "0";
 				tokens.add(digits);
 			}
