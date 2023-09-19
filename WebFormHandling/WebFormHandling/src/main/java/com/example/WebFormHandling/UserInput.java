@@ -27,8 +27,6 @@ public class UserInput {
 	
 	@NotNull
 	@NotEmpty
-	@Pattern(regexp = "^[0-9+\\-*/]+$", message = "Should only consist of digits and operators")
-	@Pattern(regexp = "^[0-9][0-9+\\-*/]*[0-9]$", message = "Should start and end with digits")
 	@ValidMathExpression
 	private String expression;
 

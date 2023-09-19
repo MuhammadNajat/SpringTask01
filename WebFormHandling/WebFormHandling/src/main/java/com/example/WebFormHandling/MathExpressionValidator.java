@@ -15,8 +15,12 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
 		System.out.println("\n\n\n#### Entered expre validation...\n\n\n");
-		boolean existsRepeatedOperator = value.matches("[+\\-*/]+");
-		boolean valid = !existsRepeatedOperator;
+		value = value.replaceAll("\\s", "");
+		
+		boolean existsRepeatedOperators = checkIfRepeatedOperatorsExist(value);
+		boolean containsOnlyDigitsAndOperators = checkIfContainsOnlyDigitsAndOperators(value);
+		boolean startsAndEndsWithDigits = Character.isDigit(value.charAt(0)) && Character.isDigit(value.charAt(value.length()-1));
+		boolean valid = !existsRepeatedOperators && containsOnlyDigitsAndOperators && startsAndEndsWithDigits;
 		
 		if(valid) {
 			Expression expression = new ExpressionBuilder(value).build();
@@ -28,5 +32,30 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 		}
 		
 		return valid;
+	}
+
+	private boolean checkIfRepeatedOperatorsExist(String text) {
+		int textLength = text.length();
+		boolean response = false;
+		String operators = "+-*/";
+		for(int i=0; i<textLength-1; i++) {
+			Character character = text.charAt(i);
+			char nextCharacter = text.charAt(i+1);
+			response |= (operators.indexOf(character) != -1 && operators.indexOf(nextCharacter) != -1);
+		}
+		return response;
+	}
+
+	private boolean checkIfContainsOnlyDigitsAndOperators(String text) {
+		int textLength = text.length();
+		boolean response = true;
+		String operators = "+-*/";
+		for(int i=0; i<textLength; i++) {
+			char character = text.charAt(i);
+			boolean valid = Character.isDigit(character);
+			valid |= operators.indexOf(character) != -1 ;
+			response &= valid;
+		}
+		return response;
 	}
 }
