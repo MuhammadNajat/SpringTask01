@@ -16,19 +16,19 @@
         	
         	<tr>
         		<td>Age:</td>
-				<td><input type="number" th:field="*{age}" /></td>
+				<td><input type="number" th:field="*{age}" min="1" max="200" /></td>
 				<td th:if="${#fields.hasErrors('age')}" th:errors="*{age}" style="color:red">Minimum age is 15</td>
         	</tr>
         	
         	<tr>
         		<td>Email:</td>
-				<td><input type="text" th:field="*{emailAddress}" /></td>
+				<td><input type="text" th:field="*{emailAddress}" maxlength="320" /></td>
 				<td th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}" style="color:red">Correct Email Format is firstpart@domain.com</td>
         	</tr>
         	
         	<tr>
 				<td><p th:text="'Make a mathemetical expression which evaluates to ' + ${customCaptchaData.numberToMake}" /></td>
-				<td><input type="text" th:field="*{expression}" placeholder="Put the expression here..."/></td>
+				<td><input type="text" th:field="*{expression}" placeholder="Put the expression here..." maxlength="50"/></td>
 				<td th:if="${#fields.hasErrors('expression')}" th:errors="*{expression}" style="color:red">Please input valid expression</td>
 
         	</tr>
