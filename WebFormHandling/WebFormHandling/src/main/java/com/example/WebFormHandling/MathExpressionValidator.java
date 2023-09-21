@@ -27,20 +27,21 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 		List<String> tokens = getTextTokenized(value);
 		System.out.println("Tokens:" + tokens);
 		
-		boolean containsOnlyDigitsAndOperators = checkIfContainsOnlyDigitsAndOperators(value);
-		boolean existRepeatedOperators = checkIfRepeatedOperatorsExist(value);
-		boolean existEasyExpressions = checkIfEasyExpressionsExist(tokens);
+		boolean containsOnlyDigitsAndOperators = checkIfContainsDigitsAndOperatorsOnly(value);
+		boolean containsRepeatedOperators = checkIfContainsRepeatedOperators(value);
+		boolean containsEasyExpressions = checkIfContainsEasyExpressions(tokens);
 		boolean startsAndEndsWithDigits = Character.isDigit(value.charAt(0)) && Character.isDigit(value.charAt(value.length()-1));
-		boolean existsDivisionByZero = checkIfDivisionByZeroExists(tokens);
-		boolean numberToMakeExistsInTokens = checkIfReferenceExistsInTokens(tokens, String.valueOf(customCaptchaData.getNumberToMake()));
-		boolean valid = containsOnlyDigitsAndOperators && !existRepeatedOperators && !existEasyExpressions && startsAndEndsWithDigits && !existsDivisionByZero && !numberToMakeExistsInTokens;
+		boolean containsDivisionByZero = checkIfContainsDivisionByZero(tokens);
+		boolean containsNumberToMake = checkIfContainsNumberToMake(tokens, String.valueOf(customCaptchaData.getNumberToMake()));
+		boolean valid = containsOnlyDigitsAndOperators && !containsRepeatedOperators && !containsEasyExpressions && startsAndEndsWithDigits && !containsDivisionByZero && !containsNumberToMake;
 		
+		//Debug codes
 		System.out.println("containsOnlyDigitsAndOperators:" + containsOnlyDigitsAndOperators);
-		System.out.println("existRepeatedOperators:" + existRepeatedOperators);
-		System.out.println("existEasyExpressions:" + existEasyExpressions);
+		System.out.println("containsRepeatedOperators:" + containsRepeatedOperators);
+		System.out.println("containsEasyExpressions:" + containsEasyExpressions);
 		System.out.println("startsAndEndsWithDigits:" + startsAndEndsWithDigits);
-		System.out.println("existsDivisionByZero:" + existsDivisionByZero);
-		System.out.println("numberToMakeExistsInTokens:" + numberToMakeExistsInTokens);
+		System.out.println("containsDivisionByZero:" + containsDivisionByZero);
+		System.out.println("numberToMakeExistsInTokens:" + containsNumberToMake);
 		System.out.println("valid:" + valid);
 		
 		if(valid) {
@@ -90,7 +91,7 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 		return tokens;
 	}
 
-	private boolean checkIfRepeatedOperatorsExist(String text) {
+	private boolean checkIfContainsRepeatedOperators(String text) {
 		int textLength = text.length();
 		boolean response = false;
 		String operators = "+-*/";
@@ -102,7 +103,7 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 		return response;
 	}
 
-	private boolean checkIfContainsOnlyDigitsAndOperators(String text) {
+	private boolean checkIfContainsDigitsAndOperatorsOnly(String text) {
 		int textLength = text.length();
 		boolean response = true;
 		String operators = "+-*/";
@@ -116,7 +117,7 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 	}
 	
 	//Easy expressions are assumed as follows: + 0, - 0 , * 1, and / 1
-	private boolean checkIfEasyExpressionsExist(List<String> tokens) {
+	private boolean checkIfContainsEasyExpressions(List<String> tokens) {
 		int tokenCount = tokens.size();
 		boolean exist = false;
 		for(int i=0; i<tokenCount-1; i++) {
@@ -131,7 +132,7 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 		return exist;
 	}
 	
-	private boolean checkIfDivisionByZeroExists(List<String> tokens) {
+	private boolean checkIfContainsDivisionByZero(List<String> tokens) {
 		int tokenCount = tokens.size();
 		boolean exist = false;
 		for(int i=0; i<tokenCount-1; i++) {
@@ -145,7 +146,7 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 		return exist;
 	}
 	
-	private boolean checkIfReferenceExistsInTokens(List<String> tokens, String reference) {
+	private boolean checkIfContainsNumberToMake(List<String> tokens, String reference) {
 		boolean exist = false;
 		for(String token : tokens) {
 			exist |= token.equals(reference);
