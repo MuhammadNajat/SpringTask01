@@ -15,6 +15,14 @@ public class MathExpressionValidator implements ConstraintValidator<ValidMathExp
 	@Autowired
 	CustomCaptchaData customCaptchaData;
 	
+	public CustomCaptchaData getCustomCaptchaData() {
+		return customCaptchaData;
+	}
+
+	public void setCustomCaptchaData(CustomCaptchaData customCaptchaData) {
+		this.customCaptchaData = customCaptchaData;
+	}
+
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
 		System.out.println("\n\n\n#### Entered expression validation...\n\n\n");
