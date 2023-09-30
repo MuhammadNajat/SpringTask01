@@ -1,5 +1,6 @@
 package com.example.WebFormHandling;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -9,9 +10,15 @@ import javax.persistence.Table;
 @Table(name="books")
 public class Book {
 	@Id
+	@Column(name = "id")
 	private Integer id;
+	
+	@Column(name = "name")
 	private String name;
-	private String writer;
+	
+	@Column(name = "writerName")
+	private String writerName;
+	
 	@ManyToOne
 	private Student borrowerStudent;
 	
@@ -27,11 +34,11 @@ public class Book {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getWriter() {
-		return writer;
+	public String getWriterName() {
+		return writerName;
 	}
-	public void setWriter(String writer) {
-		this.writer = writer;
+	public void setWriterName(String writerName) {
+		this.writerName = writerName;
 	}
 	public Student getBorrowerStudent() {
 		return borrowerStudent;

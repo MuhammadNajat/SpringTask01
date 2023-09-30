@@ -1,10 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+	<h1>Please Register the Book...</h1>
+    <form action="#" th:action="@{/bookRegistration}" th:object="${userInputForBookRegistration}" method="post">
+		<table>
+			<tr>
+        		<td>Id:</td>
+				<td><input type="number" th:field="*{id}" min="1" max="2000000000" /></td>
+				<td th:if="${#fields.hasErrors('id')}" th:errors="*{id}" style="color:red">ID should be positive</td>
+        	</tr>
+        	
+			<tr>
+        		<td>Name:</td>
+				<td><input type="text" th:field="*{name}" /></td>
+				<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red">Name Length should be grater than 1 and smaller than 100</td>
+        	</tr>
+        	
+        	<tr>
+        		<td>Writer:</td>
+				<td><input type="text" th:field="*{writerName}"/></td>
+				<td th:if="${#fields.hasErrors('writerName')}" th:errors="*{writerName}" style="color:red">Writer name length should be grater than 1 and smaller than 35</td>
+        	</tr>
+        	
+        	<!--
+        	<tr>
+				<td><p th:text="'Make a mathemetical expression which evaluates to ' + ${customCaptchaData.numberToMake}" /></td>
+				<td><input type="text" th:field="*{expression}" placeholder="Put the expression here..." maxlength="50"/></td>
+				<td th:if="${#fields.hasErrors('expression')}" th:errors="*{expression}" style="color:red">Please input valid expression</td>
 
+        	</tr>
+        	-->
+        	
+			<tr>
+				<td><input type="submit" value="Register" /></td>
+				<td><input type="reset" value="Reset" /></td>
+			</tr>
+    	</table>
+    </form>
 </body>
 </html>

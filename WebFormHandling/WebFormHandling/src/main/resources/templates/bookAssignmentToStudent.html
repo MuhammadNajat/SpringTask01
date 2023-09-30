@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-
+	<h1>Assign a book to a student</h1>
+    <form action="#" th:action="@{/bookAssignmentToStudent}" th:object="${userInputForBookAssignmentToStudent}" method="post">
+		<table>
+			<tr>
+        		<td>Book Id:</td>
+				<td><input type="number" th:field="*{bookId}" min="1" max="2000000000" /></td>
+				<td th:if="${#fields.hasErrors('bookId')}" th:errors="*{bookId}" style="color:red">ID should be in range {1, 2000000000}</td>
+        	</tr>
+        	
+			<tr>
+        		<td>Student Id:</td>
+				<td><input type="number" th:field="*{studentId}" min="1" max="2000000000" /></td>
+				<td th:if="${#fields.hasErrors('studentId')}" th:errors="*{studentId}" style="color:red">ID should be in range {1, 2000000000}</td>
+        	</tr>
+			<tr>
+				<td><input type="submit" value="Register" /></td>
+				<td><input type="reset" value="Reset" /></td>
+			</tr>
+    	</table>
+    </form>
 </body>
 </html>

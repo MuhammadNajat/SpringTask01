@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,7 @@ public class RegistrationController {
 	    	return "studentRegistration";
 	    }
 	    
-	    Integer inputId = userInputForStudentRegistration.getId();
+	    int inputId = userInputForStudentRegistration.getId();
 	    String inputName = userInputForStudentRegistration.getName();
 	    String inputEmail = userInputForStudentRegistration.getEmailAddress();
 	    
@@ -40,48 +41,71 @@ public class RegistrationController {
 	    student.setEmail(inputEmail);
 	    student.setBorrowedBooks(new ArrayList<Book>());
 	    
-	    SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+	    SessionFactory sessionFactory = HibernateConfigurationUtils.getSessionFactory();
 	    if(sessionFactory == null) {
 	    	return "studentRegistration";
 	    }
-	    Session session = sessionFactory.getCurrentSession();
 	    
-	    session.beginTransaction();
+	    Session session = sessionFactory.openSession();
+	    Transaction transaction = session.beginTransaction();
 	    session.save(student);
-	    session.getTransaction().commit();
+	    transaction.commit();
 	    
 	    return "studentRegistrationCompleted";
     }
     
     @GetMapping("/bookRegistration")
-    public String showBookRegistrationForm() {
+    public String showBookRegistrationForm(UserInputForBookRegistration userInputForBookRegistration) {
 	    return "bookRegistration";
     }
   
     @PostMapping("/bookRegistration")
-    public String processBookRegistrationFormSubmission(@Valid UserInput userInput, BindingResult bindingResult) {
-	    String templateNameToRender = bindingResult.hasErrors()? "bookRegistration" : "successCommonPage";
-	    return templateNameToRender;
+    public String processBookRegistrationFormSubmission(@Valid UserInputForBookRegistration userInputForBookRegistration, BindingResult bindingResult) {
+    	if(bindingResult.hasErrors()) {
+	    	return "bookRegistration";
+	    }
+	    
+	    int inputId = userInputForBookRegistration.getId();
+	    String inputName = userInputForBookRegistration.getName();
+	    String inputWriterName = userInputForBookRegistration.getWriterName();
+	    
+	    Book book = new Book();
+	    book.setId(inputId);
+	    book.setName(inputName);
+	    book.setWriterName(inputWriterName);
+	    book.setBorrowerStudent(null);
+	    
+	    SessionFactory sessionFactory = HibernateConfigurationUtils.getSessionFactory();
+	    if(sessionFactory == null) {
+	    	return "studentRegistration";
+	    }
+	    
+	    Session session = sessionFactory.openSession();
+	    Transaction transaction = session.beginTransaction();
+	    session.save(book);
+	    transaction.commit();
+	    
+	    return "successCommonPage";
     }
     
     @GetMapping("/bookAssignmentToStudent")
-    public String showBookAssignmentToStudentForm(UserInput userInput) {
+    public String showBookAssignmentToStudentForm(UserInputForBookAssignmentToStudent userInputForBookAssignmentToStudent) {
 	    return "bookAssignmentToStudent";
     }
   
     @PostMapping("/bookAssignmentToStudent")
-    public String processBookAssignmentToStudentFormSubmission(@Valid UserInput userInput, BindingResult bindingResult) {
+    public String processBookAssignmentToStudentFormSubmission(@Valid UserInputForBookAssignmentToStudent userInputForBookAssignmentToStudent, BindingResult bindingResult) {
 	    String templateNameToRender = bindingResult.hasErrors()? "bookAssignmentToStudent" : "successCommonPage";
 	    return templateNameToRender;
     }
     
     @GetMapping("/bookWithdrawalFromStudent")
-    public String showBookWithdrawalFromStudentForm(UserInput userInput, CustomCaptchaData customCaptchaData) {
+    public String showBookWithdrawalFromStudentForm(UserInputForBookWithdrawalFromStudent userInputForBookWithdrawalFromStudent) {
 	    return "bookWithdrawalFromStudent";
     }
   
     @PostMapping("/bookWithdrawalFromStudent")
-    public String processBookWithdrawalFromStudentFormSubmission(@Valid UserInput userInput, BindingResult bindingResult) {
+    public String processBookWithdrawalFromStudentFormSubmission(@Valid UserInputForBookWithdrawalFromStudent userInputForBookWithdrawalFromStudent, BindingResult bindingResult) {
 	    String templateNameToRender = bindingResult.hasErrors()? "bookWithdrawalFromStudent" : "successCommonPage";
 	    return templateNameToRender;
     }
