@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Registration Successful!</h1>
+    <p th:text="'Id: ' + ${userInputForStudentRegistration.id}" />
+    <p th:text="'Name: ' + ${userInputForStudentRegistration.name}" />
+    <p th:text="'Email Address: ' + ${userInputForStudentRegistration.emailAddress}" />
+    <a href="/studentRegistration">Register again...</a>
+</body>
+</html>
