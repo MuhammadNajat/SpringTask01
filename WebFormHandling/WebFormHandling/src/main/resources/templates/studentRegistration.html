@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-	<h1>Please Register Yourself...</h1>
+	<h1>Stuent Registration</h1>
     <form action="#" th:action="@{/studentRegistration}" th:object="${userInputForStudentRegistration}" method="post">
 		<table>
 			<tr>
@@ -25,15 +25,6 @@
 				<td><input type="text" th:field="*{emailAddress}" maxlength="320" /></td>
 				<td th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}" style="color:red">Correct Email Format is firstpart@domain.com</td>
         	</tr>
-        	
-        	<!--
-        	<tr>
-				<td><p th:text="'Make a mathemetical expression which evaluates to ' + ${customCaptchaData.numberToMake}" /></td>
-				<td><input type="text" th:field="*{expression}" placeholder="Put the expression here..." maxlength="50"/></td>
-				<td th:if="${#fields.hasErrors('expression')}" th:errors="*{expression}" style="color:red">Please input valid expression</td>
-
-        	</tr>
-        	-->
         	
 			<tr>
 				<td><input type="submit" value="Register" /></td>
