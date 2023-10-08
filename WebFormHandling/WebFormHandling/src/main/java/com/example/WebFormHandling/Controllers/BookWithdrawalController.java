@@ -1,22 +1,28 @@
 package com.example.WebFormHandling.Controllers;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.WebFormHandling.Book;
-import com.example.WebFormHandling.HibernateConfigurationUtils;
 import com.example.WebFormHandling.Student;
 import com.example.WebFormHandling.UserInputForBookWithdrawalFromStudent;
+import com.example.WebFormHandling.Repositories.BookRepository;
+import com.example.WebFormHandling.Repositories.StudentRepository;
 
 import jakarta.validation.Valid;
 
 @Controller
 public class BookWithdrawalController {
+	@Autowired
+	private StudentRepository studentRepository;
+	@Autowired
+	private BookRepository bookRepository;
+	
 	@GetMapping("/bookWithdrawalFromStudent")
     public String showBookWithdrawalFromStudentForm(UserInputForBookWithdrawalFromStudent userInputForBookWithdrawalFromStudent) {
 	    return "bookWithdrawalFromStudent";
@@ -31,24 +37,22 @@ public class BookWithdrawalController {
     	int inputBookId = userInputForBookWithdrawalFromStudent.getBookId();
     	int inputStudentId = userInputForBookWithdrawalFromStudent.getStudentId();
 	    
-	    SessionFactory sessionFactory = HibernateConfigurationUtils.getSessionFactory();
-	    if(sessionFactory == null) {
-	    	return "bookWithdrawalFromStudent";
-	    }
+    	Optional<Student> studentOptional = studentRepository.findById(inputStudentId);
+    	Optional<Book> bookOptional = bookRepository.findById(inputBookId);
+ 
 	    
-	    Session session = sessionFactory.openSession();
-	    Transaction transaction = session.beginTransaction();
-	    Student student = (Student) session.get(Student.class, inputStudentId);
-	    Book book = (Book) session.get(Book.class, inputBookId);
-	    
-	    if(student == null || book == null || book.getBorrowerStudent() != student) {
+    	if(!studentOptional.isPresent() || !bookOptional.isPresent()) {
 	    	return "operationFailure";
 	    }
 	    
-	    student.getBorrowedBooks().remove(book);
-	    book.setBorrowerStudent(null);
+	    Book book = bookOptional.get();
 	    
-	    transaction.commit();
+	    Student student = studentOptional.get();
+	    student.getBorrowedBooks().remove(book);	    
+	    studentRepository.save(student);
+	    
+	    book.setBorrowerStudent(null);
+	    bookRepository.save(book);
 	    
 	    return "successCommonPage";
     }

@@ -1,21 +1,22 @@
 package com.example.WebFormHandling.Controllers;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.WebFormHandling.Book;
-import com.example.WebFormHandling.HibernateConfigurationUtils;
 import com.example.WebFormHandling.UserInputForBookRegistration;
+import com.example.WebFormHandling.Repositories.BookRepository;
 
 import jakarta.validation.Valid;
 
 @Controller
 public class BookRegistrationController {
+	@Autowired
+	private BookRepository bookRepository;
+	
 	@GetMapping("/bookRegistration")
     public String showBookRegistrationForm(UserInputForBookRegistration userInputForBookRegistration) {
 	    return "bookRegistration";
@@ -28,16 +29,7 @@ public class BookRegistrationController {
 	    }
 	    
 	    Book book = prepareBookUsingUserInput(userInputForBookRegistration);
-	    
-	    SessionFactory sessionFactory = HibernateConfigurationUtils.getSessionFactory();
-	    if(sessionFactory == null) {
-	    	return "bookRegistration";
-	    }
-	    
-	    Session session = sessionFactory.openSession();
-	    Transaction transaction = session.beginTransaction();
-	    session.save(book);
-	    transaction.commit();
+	    bookRepository.save(book);
 	    
 	    return "successCommonPage";
     }

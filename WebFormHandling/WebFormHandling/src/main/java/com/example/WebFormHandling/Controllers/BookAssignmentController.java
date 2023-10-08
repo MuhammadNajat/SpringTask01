@@ -1,22 +1,28 @@
 package com.example.WebFormHandling.Controllers;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.WebFormHandling.Book;
-import com.example.WebFormHandling.HibernateConfigurationUtils;
 import com.example.WebFormHandling.Student;
 import com.example.WebFormHandling.UserInputForBookAssignmentToStudent;
+import com.example.WebFormHandling.Repositories.BookRepository;
+import com.example.WebFormHandling.Repositories.StudentRepository;
 
 import jakarta.validation.Valid;
 
 @Controller
 public class BookAssignmentController {
+	@Autowired
+	private StudentRepository studentRepository;
+	@Autowired
+	private BookRepository bookRepository;
+	
 	@GetMapping("/bookAssignmentToStudent")
     public String showBookAssignmentToStudentForm(UserInputForBookAssignmentToStudent userInputForBookAssignmentToStudent) {
 	    return "bookAssignmentToStudent";
@@ -31,24 +37,24 @@ public class BookAssignmentController {
     	int inputBookId = userInputForBookAssignmentToStudent.getBookId();
     	int inputStudentId = userInputForBookAssignmentToStudent.getStudentId();
 	    
-	    SessionFactory sessionFactory = HibernateConfigurationUtils.getSessionFactory();
-	    if(sessionFactory == null) {
-	    	return "bookAssignmentToStudent";
-	    }
+    	Optional<Book> bookOptional = bookRepository.findById(inputBookId);
+    	Optional<Student> studentOptional = studentRepository.findById(inputStudentId);
 	    
-	    Session session = sessionFactory.openSession();
-	    Transaction transaction = session.beginTransaction();
-	    Student student = (Student) session.get(Student.class, inputStudentId);
-	    Book book = (Book) session.get(Book.class, inputBookId);
-	    
-	    if(student == null || book == null || book.getBorrowerStudent() != null) {
+	    if(!studentOptional.isPresent() || !bookOptional.isPresent()) {
 	    	return "operationFailure";
 	    }
 	    
-	    student.getBorrowedBooks().add(book);
-	    book.setBorrowerStudent(student);
+	    Book book = bookOptional.get();
+	    if(book.getBorrowerStudent() != null) {
+	    	return "operationFailure";
+	    }
 	    
-	    transaction.commit();
+	    Student student = studentOptional.get();
+	    student.getBorrowedBooks().add(book);	    
+	    studentRepository.save(student);
+	    
+	    book.setBorrowerStudent(student);
+	    bookRepository.save(book);
 	    
 	    return "successCommonPage";
     }

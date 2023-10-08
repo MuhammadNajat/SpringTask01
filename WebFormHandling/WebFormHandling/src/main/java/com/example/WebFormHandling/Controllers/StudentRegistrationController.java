@@ -2,23 +2,24 @@ package com.example.WebFormHandling.Controllers;
 
 import java.util.ArrayList;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.WebFormHandling.Book;
-import com.example.WebFormHandling.HibernateConfigurationUtils;
 import com.example.WebFormHandling.Student;
 import com.example.WebFormHandling.UserInputForStudentRegistration;
+import com.example.WebFormHandling.Repositories.StudentRepository;
 
 import jakarta.validation.Valid;
 
 @Controller
 public class StudentRegistrationController {
+	@Autowired
+	private StudentRepository studentRepository;
+	
 	@GetMapping("/studentRegistration")
     public String showStudentRegistrationForm(UserInputForStudentRegistration userInputForStudentRegistration) {
 	    return "studentRegistration";
@@ -31,16 +32,7 @@ public class StudentRegistrationController {
 	    }
 	    
 	    Student student = prepareStudentUsingUserInput(userInputForStudentRegistration);
-	    
-	    SessionFactory sessionFactory = HibernateConfigurationUtils.getSessionFactory();
-	    if(sessionFactory == null) {
-	    	return "studentRegistration";
-	    }
-	    
-	    Session session = sessionFactory.openSession();
-	    Transaction transaction = session.beginTransaction();
-	    session.save(student);
-	    transaction.commit();
+	    studentRepository.save(student);
 	    
 	    return "studentRegistrationCompleted";
     }

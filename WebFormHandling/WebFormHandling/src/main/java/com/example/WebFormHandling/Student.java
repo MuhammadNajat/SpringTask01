@@ -2,14 +2,12 @@ package com.example.WebFormHandling;
 
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
-@Entity
-@Table(name="students")
+@jakarta.persistence.Entity
+@jakarta.persistence.Table(name="students")
 public class Student {
 	@Id
 	@Column(name = "id")
