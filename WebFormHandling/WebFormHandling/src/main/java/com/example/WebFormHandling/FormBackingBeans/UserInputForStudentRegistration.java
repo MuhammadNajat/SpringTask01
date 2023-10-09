@@ -1,4 +1,4 @@
-package com.example.WebFormHandling;
+package com.example.WebFormHandling.FormBackingBeans;
 
 import org.springframework.stereotype.Component;
 import jakarta.validation.constraints.Email;

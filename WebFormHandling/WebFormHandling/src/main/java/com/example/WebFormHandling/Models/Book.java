@@ -1,4 +1,4 @@
-package com.example.WebFormHandling;
+package com.example.WebFormHandling.Models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

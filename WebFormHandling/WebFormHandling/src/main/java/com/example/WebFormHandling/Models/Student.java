@@ -1,4 +1,4 @@
-package com.example.WebFormHandling;
+package com.example.WebFormHandling.Models;
 
 import java.util.List;
 

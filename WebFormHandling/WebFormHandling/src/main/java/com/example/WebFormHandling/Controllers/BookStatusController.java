@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.WebFormHandling.Book;
-import com.example.WebFormHandling.Student;
+import com.example.WebFormHandling.Models.Book;
+import com.example.WebFormHandling.Models.Student;
 import com.example.WebFormHandling.Repositories.BookRepository;
 
 @Controller

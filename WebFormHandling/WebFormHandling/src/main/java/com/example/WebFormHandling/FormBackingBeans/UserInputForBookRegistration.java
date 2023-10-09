@@ -1,4 +1,4 @@
-package com.example.WebFormHandling;
+package com.example.WebFormHandling.FormBackingBeans;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
