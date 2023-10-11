@@ -1,9 +1,9 @@
-package com.example.WebFormHandling.FormBackingBeans;
+package com.example.WebFormHandling.Models;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-public class UserInputForBookAssignmentToStudent {
+public class UserInputForBookWithdrawalFromStudent {
 	@NotNull
 	@Min(1)
 	private int bookId;

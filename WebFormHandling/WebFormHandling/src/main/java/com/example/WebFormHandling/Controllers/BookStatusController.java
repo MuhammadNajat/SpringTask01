@@ -19,7 +19,7 @@ public class BookStatusController {
 	private BookRepository bookRepository;
 	
 	@GetMapping("/bookStatus")
-    public String showBookStatus(Model model) {
+    public String showBookStatus(Model model) throws Exception {
 	    Iterable<Book> fetchedBooks = bookRepository.findAll();
 	    List<BookEntry> bookEntries = prepareDetailedBookInformation(fetchedBooks);
 	    model.addAttribute("books", bookEntries);

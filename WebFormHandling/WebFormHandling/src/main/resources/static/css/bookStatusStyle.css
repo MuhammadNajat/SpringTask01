@@ -1,0 +1,24 @@
+@charset "ISO-8859-1";
+
+.bookContainerTable {
+	width:auto;
+	border-collapse: collapse;
+	align-items: center;
+	align-self: center;
+	align-content: center;
+	text-align: center;
+}
+	 
+.bookContainerTable th {
+	border: solid 1px #777;
+	padding: 5px;
+	text-align: center;
+	background: #3630a3;
+	color:white;
+	text-align: center;
+}
+
+.bookContainerTable td {
+	border: solid 1px #777;
+	padding: 20px; text-align: center;
+}

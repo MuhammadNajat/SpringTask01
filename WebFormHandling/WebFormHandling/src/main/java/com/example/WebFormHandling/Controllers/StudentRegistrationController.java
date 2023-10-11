@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.WebFormHandling.FormBackingBeans.UserInputForStudentRegistration;
+import com.example.WebFormHandling.Models.Student;
 import com.example.WebFormHandling.Services.StudentRegistrationService;
 import jakarta.validation.Valid;
 
@@ -16,19 +16,19 @@ public class StudentRegistrationController {
 	private StudentRegistrationService studentRegistrationService;
 	
 	@GetMapping("/studentRegistration")
-    public String showStudentRegistrationForm(UserInputForStudentRegistration userInputForStudentRegistration) {
+    public String showStudentRegistrationForm(Student student) {
 	    return "studentRegistration";
     }
   
     @PostMapping("/studentRegistration")
-    public String processStudentRegistrationFormSubmission(@Valid UserInputForStudentRegistration userInputForStudentRegistration, BindingResult bindingResult) {
+    public String processStudentRegistrationFormSubmission(@Valid Student student, BindingResult bindingResult) {
 	    if(bindingResult.hasErrors()) {
 	    	return "studentRegistration";
 	    }
 	    
-	    studentRegistrationService.attemptStudentRegistration(userInputForStudentRegistration);
-	    
-	    return "studentRegistrationCompleted";
+	    boolean attemptSuccessful = studentRegistrationService.attemptStudentRegistration(student);
+	    String templateToRender = attemptSuccessful? "studentRegistrationCompleted" : "operationFailure";
+	    return templateToRender;
     }
     
 }

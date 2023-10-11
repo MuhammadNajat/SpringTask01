@@ -6,9 +6,9 @@
 </head>
 <body>
 	<h1>Registration Successful!</h1>
-    <p th:text="'Id: ' + ${userInputForStudentRegistration.id}" />
-    <p th:text="'Name: ' + ${userInputForStudentRegistration.name}" />
-    <p th:text="'Email Address: ' + ${userInputForStudentRegistration.emailAddress}" />
+    <p th:text="'Id: ' + ${student.id}" />
+    <p th:text="'Name: ' + ${student.name}" />
+    <p th:text="'Email Address: ' + ${student.emailAddress}" />
     <a href="/studentRegistration">Register again...</a>
 </body>
 </html>

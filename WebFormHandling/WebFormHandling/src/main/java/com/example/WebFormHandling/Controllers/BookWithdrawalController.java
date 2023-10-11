@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.WebFormHandling.FormBackingBeans.UserInputForBookWithdrawalFromStudent;
+import com.example.WebFormHandling.Models.UserInputForBookWithdrawalFromStudent;
 import com.example.WebFormHandling.Services.BookWithdrawalService;
 
 import jakarta.validation.Valid;

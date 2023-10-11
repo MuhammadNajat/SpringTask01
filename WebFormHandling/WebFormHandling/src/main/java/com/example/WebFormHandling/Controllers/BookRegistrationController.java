@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.WebFormHandling.FormBackingBeans.UserInputForBookRegistration;
+import com.example.WebFormHandling.Models.Book;
 import com.example.WebFormHandling.Services.BookRegistrationService;
 import jakarta.validation.Valid;
 
@@ -16,18 +16,18 @@ public class BookRegistrationController {
 	private BookRegistrationService bookRegistrationService;
 	
 	@GetMapping("/bookRegistration")
-    public String showBookRegistrationForm(UserInputForBookRegistration userInputForBookRegistration) {
+    public String showBookRegistrationForm(Book book) {
 	    return "bookRegistration";
     }
   
     @PostMapping("/bookRegistration")
-    public String processBookRegistrationFormSubmission(@Valid UserInputForBookRegistration userInputForBookRegistration, BindingResult bindingResult) {
+    public String processBookRegistrationFormSubmission(@Valid Book book, BindingResult bindingResult) {
     	if(bindingResult.hasErrors()) {
 	    	return "bookRegistration";
 	    }
 	    
-	    bookRegistrationService.attemptBookRegistration(userInputForBookRegistration);
-	    
-	    return "successCommonPage";
+	    boolean attemptSuccessful = bookRegistrationService.attemptBookRegistration(book);
+	    String templateToRender = attemptSuccessful? "successCommonPage" : "operationFailure";
+	    return templateToRender;
     }
 }

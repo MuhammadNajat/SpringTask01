@@ -5,15 +5,29 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Student {
+	@NotNull
+	@Min(1)
 	@Id
 	private int id;
 	
+	@NotNull
+	@Size(min=3, max=30)
+	@Pattern(regexp = "^[a-zA-Z\s]*$")
 	private String name;
 	
-	private String email;
+	@NotNull
+	@NotEmpty
+	@Email
+	private String emailAddress;
 	
 	@OneToMany(mappedBy = "borrowerStudent")
 	private List<Book> borrowedBooks;
@@ -30,11 +44,11 @@ public class Student {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getEmail() {
-		return email;
+	public String getEmailAddress() {
+		return emailAddress;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 	public List<Book> getBorrowedBooks() {
 		return borrowedBooks;

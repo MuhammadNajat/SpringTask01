@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.WebFormHandling.FormBackingBeans.UserInputForBookAssignmentToStudent;
+import com.example.WebFormHandling.Models.UserInputForBookAssignmentToStudent;
 import com.example.WebFormHandling.Services.BookAssignmentService;
 import jakarta.validation.Valid;
 
@@ -28,7 +28,6 @@ public class BookAssignmentController {
 	    
     	boolean response = bookAssignmentService.attemptBookAssignment(userInputForBookAssignmentToStudent);
     	String templateToRender = response? "successCommonPage" : "operationFailure";
-	 
 	    return templateToRender;
     }
 }

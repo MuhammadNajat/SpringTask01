@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.WebFormHandling.FormBackingBeans.UserInputForBookWithdrawalFromStudent;
 import com.example.WebFormHandling.Models.Book;
 import com.example.WebFormHandling.Models.Student;
+import com.example.WebFormHandling.Models.UserInputForBookWithdrawalFromStudent;
 import com.example.WebFormHandling.Repositories.BookRepository;
 import com.example.WebFormHandling.Repositories.StudentRepository;
 
