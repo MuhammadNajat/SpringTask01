@@ -12,11 +12,11 @@ import com.example.WebFormHandling.Models.Student;
 import com.example.WebFormHandling.Repositories.StudentRepository;
 
 @Service
-@Transactional
 public class StudentRegistrationService {
 	@Autowired
 	private StudentRepository studentRepository;
 	
+	@Transactional
 	public void attemptStudentRegistration(UserInputForStudentRegistration userInputForStudentRegistration) {
 		Student student = prepareStudentUsingUserInput(userInputForStudentRegistration);
 	    studentRepository.save(student);

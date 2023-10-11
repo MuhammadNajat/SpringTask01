@@ -2,21 +2,17 @@ package com.example.WebFormHandling.Models;
 
 import java.util.List;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
-@jakarta.persistence.Entity
-@jakarta.persistence.Table(name="students")
+@Entity
 public class Student {
 	@Id
-	@Column(name = "id")
 	private int id;
 	
-	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "email")
 	private String email;
 	
 	@OneToMany(mappedBy = "borrowerStudent")

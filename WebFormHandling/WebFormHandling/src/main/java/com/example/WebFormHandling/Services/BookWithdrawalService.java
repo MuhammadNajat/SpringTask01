@@ -13,13 +13,13 @@ import com.example.WebFormHandling.Repositories.BookRepository;
 import com.example.WebFormHandling.Repositories.StudentRepository;
 
 @Service
-@Transactional
 public class BookWithdrawalService {
 	@Autowired
 	private StudentRepository studentRepository;
 	@Autowired
 	private BookRepository bookRepository;
 	
+	@Transactional
 	public boolean attemptBookWithdrawal(UserInputForBookWithdrawalFromStudent userInputForBookWithdrawalFromStudent) {
 		int inputBookId = userInputForBookWithdrawalFromStudent.getBookId();
     	int inputStudentId = userInputForBookWithdrawalFromStudent.getStudentId();

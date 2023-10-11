@@ -9,11 +9,11 @@ import com.example.WebFormHandling.Models.Book;
 import com.example.WebFormHandling.Repositories.BookRepository;
 
 @Service
-@Transactional
 public class BookRegistrationService {
 	@Autowired
 	private BookRepository bookRepository;
 	
+	@Transactional
 	public void attemptBookRegistration(UserInputForBookRegistration userInputForBookRegistration) {
 		Book book = prepareBookUsingUserInput(userInputForBookRegistration);
 	    bookRepository.save(book);
