@@ -27,7 +27,6 @@ public class BookRegistrationController {
 	    }
 	    
 	    boolean attemptSuccessful = bookRegistrationService.attemptBookRegistration(book);
-	    String templateToRender = attemptSuccessful? "successCommonPage" : "operationFailure";
-	    return templateToRender;
+        return attemptSuccessful? "successCommonPage" : "operationFailure";
     }
 }

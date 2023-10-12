@@ -27,7 +27,6 @@ public class BookAssignmentController {
 	    }
 	    
     	boolean response = bookAssignmentService.attemptBookAssignment(userInputForBookAssignmentToStudent);
-    	String templateToRender = response? "successCommonPage" : "operationFailure";
-	    return templateToRender;
+        return response? "successCommonPage" : "operationFailure";
     }
 }

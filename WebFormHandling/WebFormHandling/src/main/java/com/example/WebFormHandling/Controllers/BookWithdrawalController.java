@@ -28,7 +28,6 @@ public class BookWithdrawalController {
 	    }
 	    
     	boolean response = bookWithdrawalService.attemptBookWithdrawal(userInputForBookWithdrawalFromStudent);
-	    String templateToRender = response? "successCommonPage" : "operationFailure";
-	    return templateToRender;
+        return response? "successCommonPage" : "operationFailure";
     }
 }

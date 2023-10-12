@@ -27,8 +27,7 @@ public class StudentRegistrationController {
 	    }
 	    
 	    boolean attemptSuccessful = studentRegistrationService.attemptStudentRegistration(student);
-	    String templateToRender = attemptSuccessful? "studentRegistrationCompleted" : "operationFailure";
-	    return templateToRender;
+        return attemptSuccessful? "studentRegistrationCompleted" : "operationFailure";
     }
-    
+
 }
