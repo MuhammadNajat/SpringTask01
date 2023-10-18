@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" th:src="@{/javascript/bookSearch.js}"></script>
+</head>
+<body>
+    <h3>Insert book ID to search</h3>
+    <form action="/bookSearch/result" method="get">
+        <label for="bookId">Book ID:</label>
+        <input id="bookId" name="bookId" type="number" min="1" max="2000000000" required>
+        <br/>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

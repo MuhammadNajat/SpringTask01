@@ -1,5 +1,6 @@
 package com.example.WebFormHandling.Models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -9,31 +10,39 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
+
 @Entity
-public class Book {
+public class Book implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@NotNull
 	@Min(1)
 	@Max(2000000000)
-	private Integer id;
+	@JsonProperty("id")
+	private Long id;
 	
 	@NotNull
 	@Size(min=1, max=100)
 	@Pattern(regexp = "^[a-zA-Z\s]*$")
+	@JsonProperty("name")
 	private String name;
 	
 	@NotNull
 	@Size(min=1, max=35)
 	@Pattern(regexp = "^[a-zA-Z\s]*$")
+	@JsonProperty("writerName")
 	private String writerName;
 	
 	@ManyToOne
+	@JsonProperty("borrowerStudent")
 	private Student borrowerStudent;
 	
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {

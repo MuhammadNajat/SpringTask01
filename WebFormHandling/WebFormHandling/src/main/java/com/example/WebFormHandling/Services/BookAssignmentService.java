@@ -21,7 +21,7 @@ public class BookAssignmentService {
 	
 	@Transactional
 	public boolean attemptBookAssignment(UserInputForBookAssignmentToStudent userInputForBookAssignmentToStudent) {
-		int inputBookId = userInputForBookAssignmentToStudent.getBookId();
+		Long inputBookId = (long) userInputForBookAssignmentToStudent.getBookId();
     	int inputStudentId = userInputForBookAssignmentToStudent.getStudentId();
 	    
     	Optional<Book> bookOptional = bookRepository.findById(inputBookId);

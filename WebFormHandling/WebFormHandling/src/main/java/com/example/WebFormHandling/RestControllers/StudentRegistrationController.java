@@ -1,4 +1,4 @@
-package com.example.WebFormHandling.Controllers;
+package com.example.WebFormHandling.RestControllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

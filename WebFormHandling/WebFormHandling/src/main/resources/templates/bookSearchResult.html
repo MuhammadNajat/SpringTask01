@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+	<title>Getting Started: Handling Form Submission</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Book Information</h1>
+	<table>
+		<tr>
+			<td>Id:</td>
+			<td><p th:text="${book.id}" /></td>
+		</tr>
+
+		<tr>
+			<td>Name:</td>
+			<td><span th:text="${book.name}" /></td>
+		</tr>
+
+		<tr>
+			<td>Author:</td>
+			<td><span th:text="${book.writerName}" /></td>
+		</tr>
+
+		<tr>
+			<td><a href="/home">Home</a></td>
+		</tr>
+
+		<tr>
+			<td><a href="/bookUpdate?bookId='${book}}'">Update</a></td>
+			<td></td>
+			<td><a href="/bookDelete">Delete</a></td>
+		</tr>
+	</table>
+</body>
+</html>

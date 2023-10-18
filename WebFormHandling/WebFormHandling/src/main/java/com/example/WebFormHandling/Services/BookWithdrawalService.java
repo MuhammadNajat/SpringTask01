@@ -21,7 +21,7 @@ public class BookWithdrawalService {
 	
 	@Transactional
 	public boolean attemptBookWithdrawal(UserInputForBookWithdrawalFromStudent userInputForBookWithdrawalFromStudent) {
-		int inputBookId = userInputForBookWithdrawalFromStudent.getBookId();
+		Long inputBookId = (long) userInputForBookWithdrawalFromStudent.getBookId();
     	int inputStudentId = userInputForBookWithdrawalFromStudent.getStudentId();
 	    
     	Optional<Student> studentOptional = studentRepository.findById(inputStudentId);
